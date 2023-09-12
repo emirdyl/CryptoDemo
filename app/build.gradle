@@ -70,10 +70,13 @@ dependencies {
     implementation "androidx.room:room-ktx:2.5.1"
     kapt "androidx.room:room-compiler:2.5.1"
 
-    //Lotie
-    implementation 'com.airbnb.android:lottie:2.8.0'
+    //Lottie
+    implementation 'com.airbnb.android:lottie:6.1.0'
 
     //Hilt
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
+
+    //Swipe Refresh Layout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
 }

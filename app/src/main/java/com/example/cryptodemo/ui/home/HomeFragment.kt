@@ -1,6 +1,7 @@
 package com.example.cryptodemo.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptodemo.databinding.FragmentHomeBinding
 import com.example.cryptodemo.ui.adapter.RecyclerAdapter
+import com.example.cryptodemo.util.ViewState
 
 class HomeFragment : Fragment() {
 
@@ -38,12 +40,25 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeViewModelEvents() {
+        viewModel.viewStateLiveData.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is ViewState.Success -> {
+                    Log.e("state", "Success")
+                    adapter?.submitList(state.data)
+                    binding.ltAnimation.visibility = View.GONE
+                }
 
-        viewModel.errorLiveData.observe(viewLifecycleOwner) { errorMessage ->
-            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-        }
-        viewModel.allCoinLiveData.observe(viewLifecycleOwner) {
-            adapter?.submitList(it)
+                is ViewState.Loading -> {
+                    Log.e("state", "Loading")
+                    binding.ltAnimation.visibility = View.VISIBLE
+                }
+
+                is ViewState.Failed -> {
+                    Log.e("state", "Failed")
+                    Toast.makeText(context, state.throwable.message, Toast.LENGTH_SHORT).show()
+                    binding.ltAnimation.visibility = View.GONE
+                }
+            }
         }
     }
 
