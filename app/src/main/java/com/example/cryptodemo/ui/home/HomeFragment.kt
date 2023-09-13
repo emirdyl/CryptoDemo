@@ -35,7 +35,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setRecyclerView()
-        viewModel.getAllCoins()
         observeViewModelEvents()
     }
 
@@ -46,18 +45,26 @@ class HomeFragment : Fragment() {
                     Log.e("state", "Success")
                     adapter?.submitList(state.data)
                     binding.ltAnimation.visibility = View.GONE
+                    binding.internetLayout.visibility = View.GONE
                 }
 
                 is ViewState.Loading -> {
                     Log.e("state", "Loading")
                     binding.ltAnimation.visibility = View.VISIBLE
+                    binding.internetLayout.visibility = View.GONE
                 }
 
                 is ViewState.Failed -> {
                     Log.e("state", "Failed")
                     Toast.makeText(context, state.throwable.message, Toast.LENGTH_SHORT).show()
                     binding.ltAnimation.visibility = View.GONE
+                    binding.internetLayout.visibility =View.VISIBLE
+
                 }
+
+            }
+            binding.btnRefresh.setOnClickListener {
+              viewModel.getAllCoins()
             }
         }
     }

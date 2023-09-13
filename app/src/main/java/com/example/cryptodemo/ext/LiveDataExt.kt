@@ -1,4 +1,4 @@
-package com.example.notesdemo.ext
+package com.example.cryptodemo.ext
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
